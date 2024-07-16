@@ -5,10 +5,9 @@ const loadData = () => JSON.parse(JSON.stringify(jsonData));
 
 function Survey() {
   const [currQuestion, setCurrQuestion] = useState(0);
+  const [questionStack, setQuestionStack] = useState<number[]>([]);
   const [data, setData] = useState(loadData);
   //   question stack is an aarray of question ids that i pop from for the prev button
-  let questionStack: number[] = [-1];
-
   //   useEffect(() => {
   //     const fetchData = async () => {
   //       const result = await fetch("../assets/test-data.json");
@@ -21,14 +20,14 @@ function Survey() {
 
   return (
     <>
-      <h1>{data.questions[0].content}</h1>
+      <h1>{data.questions[currQuestion].content}</h1>
       <button
         type="button"
         className="btn btn-primary"
         onClick={() => {
-          setCurrQuestion(
-            questionStack.pop() == undefined ? -1 : questionStack.pop()
-          );
+          console.log(questionStack[questionStack.length - 1]);
+          setCurrQuestion(questionStack[questionStack.length - 1]);
+          setQuestionStack(questionStack.slice(0, questionStack.length - 1));
         }}
       >
         Previous
@@ -37,7 +36,8 @@ function Survey() {
         type="button"
         className="btn btn-primary"
         onClick={() => {
-          questionStack.push(currQuestion);
+          console.log("Next");
+          setQuestionStack([...questionStack, currQuestion]);
           setCurrQuestion(currQuestion + 1);
         }}
       >
