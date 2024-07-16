@@ -7,10 +7,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [surveyVisible, setSurveyVisibility] = useState(false);
+  const [greetingVisible, setGreetingVisibility] = useState(true);
   return (
     <>
-      <Greeting setSurveyVisibility={setSurveyVisibility} />
-      {surveyVisible && <Survey />}
+      {greetingVisible && (
+        <Greeting
+          setSurveyVisibility={setSurveyVisibility}
+          setGreetingVisibility={setGreetingVisibility}
+        />
+      )}
+      {surveyVisible && (
+        <Survey
+          setGreetingVisibility={setGreetingVisibility}
+          setSurveyVisibility={setSurveyVisibility}
+        />
+      )}
       <Translate />
     </>
   );
