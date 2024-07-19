@@ -1,6 +1,10 @@
 {
   "questions": {
-    "0": { "content": "How old are you?", "type": "number" },
+    "0": {
+      "content": "How old are you?",
+      "type": "number-value",
+      "options": ["0", "POSITIVE_INFINITY"]
+    },
     "1": {
       "content": "What country are you from?",
       "type": "search-dropdown",

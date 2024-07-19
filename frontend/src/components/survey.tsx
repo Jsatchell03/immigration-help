@@ -6,10 +6,19 @@ interface Props {
   setSurveyVisibility: (visible: boolean) => void;
   setGreetingVisibility: (visible: boolean) => void;
 }
+
+type Question = {
+  content: string;
+  type: string;
+  options: string[];
+};
+
 function Survey(props: Props) {
   const [currQuestion, setCurrQuestion] = useState(0);
   const [questionStack, setQuestionStack] = useState<number[]>([-1]);
   const [data, setData] = useState(loadData);
+  const [response, setResponse] = useState<string>("");
+  const [inputValue, setInputValue] = useState(-1);
   //   question stack is an aarray of question ids that i pop from for the prev button
   //   useEffect(() => {
   //     const fetchData = async () => {
@@ -20,12 +29,32 @@ function Survey(props: Props) {
   //     };
   //     fetchData();
   //   }, []);
-
+  // This function will return the JSX for the answer choices. The function takes a question and will return JSX based on the question type using a switch statement
+  function getOptions(questionData: Question) {
+    switch (questionData.type) {
+      case "number-value":
+        return (
+          <input
+            type="number"
+            className="form-control"
+            id="number-value-input"
+          />
+        );
+      case "search-dropdown":
+        break;
+      case "dropdown":
+        break;
+      case "radio":
+        break;
+      case "multiple-selection":
+    }
+  }
   return (
     <>
       <h1>
         {currQuestion === -1 ? null : data.questions[currQuestion].content}
       </h1>
+      {getOptions(data.questions[currQuestion])}
       <button
         type="button"
         className="btn btn-primary"
