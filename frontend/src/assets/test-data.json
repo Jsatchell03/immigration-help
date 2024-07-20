@@ -1,11 +1,13 @@
 {
   "questions": {
     "0": {
+      "id": 0,
       "content": "How old are you?",
       "type": "number-value",
       "options": ["0", "POSITIVE_INFINITY"]
     },
     "1": {
+      "id": 1,
       "content": "What country are you from?",
       "type": "search-dropdown",
       "options": [
@@ -217,6 +219,7 @@
       ]
     },
     "2": {
+      "id": 2,
       "content": "What state do you currently live in?",
       "type": "dropdown",
       "options": [
@@ -278,11 +281,13 @@
       ]
     },
     "3": {
+      "id": 3,
       "content": "Do you have a visa?",
       "type": "radio",
       "options": ["Yes", "No"]
     },
     "4": {
+      "id": 4,
       "content": "Are you any of the following?",
       "type": "multiple-selection",
       "options": [

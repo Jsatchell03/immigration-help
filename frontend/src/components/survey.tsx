@@ -8,17 +8,18 @@ interface Props {
 }
 
 type Question = {
+  id: number;
   content: string;
   type: string;
   options: string[];
 };
 
 function Survey(props: Props) {
-  const [currQuestion, setCurrQuestion] = useState(0);
+  const [currQuestion, setCurrQuestion] = useState<number>(0);
   const [questionStack, setQuestionStack] = useState<number[]>([-1]);
   const [data, setData] = useState(loadData);
   const [response, setResponse] = useState<string>("");
-  const [inputValue, setInputValue] = useState(-1);
+  const [inputValues, setInputValues] = useState(new Map<number, string>());
   //   question stack is an aarray of question ids that i pop from for the prev button
   //   useEffect(() => {
   //     const fetchData = async () => {
@@ -29,6 +30,10 @@ function Survey(props: Props) {
   //     };
   //     fetchData();
   //   }, []);
+
+  function handleFormChange(e: React.ChangeEvent<HTMLInputElement>) {
+    setResponse(e.target.value);
+  }
   // This function will return the JSX for the answer choices. The function takes a question and will return JSX based on the question type using a switch statement
   function getOptions(questionData: Question) {
     switch (questionData.type) {
@@ -38,6 +43,8 @@ function Survey(props: Props) {
             type="number"
             className="form-control"
             id="number-value-input"
+            value={response}
+            onChange={handleFormChange}
           />
         );
       case "search-dropdown":
@@ -75,6 +82,12 @@ function Survey(props: Props) {
         className="btn btn-primary"
         onClick={() => {
           console.log("Next");
+          setInputValues(
+            new Map<number, string>(
+              inputValues.set(data.questions[currQuestion].id, response)
+            )
+          );
+          console.log(inputValues);
           setQuestionStack([...questionStack, currQuestion]);
           setCurrQuestion(currQuestion + 1);
         }}
