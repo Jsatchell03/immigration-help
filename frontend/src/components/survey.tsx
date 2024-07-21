@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import jsonData from "../assets/test-data.json";
 
 const loadData = () => JSON.parse(JSON.stringify(jsonData));
+let formChanged: boolean = false;
 interface Props {
   setSurveyVisibility: (visible: boolean) => void;
   setGreetingVisibility: (visible: boolean) => void;
@@ -20,6 +21,7 @@ function Survey(props: Props) {
   const [data, setData] = useState(loadData);
   const [response, setResponse] = useState<string>("");
   const [inputValues, setInputValues] = useState(new Map<number, string>());
+
   //   question stack is an aarray of question ids that i pop from for the prev button
   //   useEffect(() => {
   //     const fetchData = async () => {
@@ -31,10 +33,17 @@ function Survey(props: Props) {
   //     fetchData();
   //   }, []);
 
-  function handleFormChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleFormChange(
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLSelectElement>
+  ) {
+    formChanged = true;
+    console.log(formChanged);
     setResponse(e.target.value);
   }
   // This function will return the JSX for the answer choices. The function takes a question and will return JSX based on the question type using a switch statement
+  // Need to add a default value to the form. Something that makes it clear what type of data needs to be input
   function getOptions(questionData: Question) {
     switch (questionData.type) {
       case "number-value":
@@ -51,10 +60,17 @@ function Survey(props: Props) {
       case "dropdown":
         let i = 0;
         const options = questionData.options.map((option) => (
-          <option key={(i += 1)}>{option}</option>
+          <option key={(i += 1)} value={option}>
+            {option}
+          </option>
         ));
         return (
-          <select className="form-select" aria-label="Default select example">
+          <select
+            className="form-select"
+            aria-label="Default select example"
+            value={response}
+            onChange={handleFormChange}
+          >
             {options}
           </select>
         );
@@ -88,15 +104,21 @@ function Survey(props: Props) {
         type="button"
         className="btn btn-primary"
         onClick={() => {
-          console.log("Next");
-          setInputValues(
-            new Map<number, string>(
-              inputValues.set(data.questions[currQuestion].id, response)
-            )
-          );
-          console.log(inputValues);
-          setQuestionStack([...questionStack, currQuestion]);
-          setCurrQuestion(currQuestion + 1);
+          if (formChanged) {
+            console.log("Next");
+            setInputValues(
+              new Map<number, string>(
+                inputValues.set(data.questions[currQuestion].id, response)
+              )
+            );
+            console.log(inputValues);
+            setQuestionStack([...questionStack, currQuestion]);
+            setCurrQuestion(currQuestion + 1);
+            formChanged = false;
+          } else {
+            console.log("Form Unchanged " + formChanged);
+            // Summon alert
+          }
         }}
       >
         Next
@@ -104,5 +126,8 @@ function Survey(props: Props) {
     </>
   );
 }
+
+// Need a better way to handel data entry. I think a default value that is checked when question changes. Throw an alert or something similar when the
+// default value is not changed. This prevents many of the errors we are dealing with now.
 
 export default Survey;
