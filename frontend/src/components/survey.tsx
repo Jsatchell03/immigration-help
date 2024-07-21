@@ -7,6 +7,7 @@ interface Props {
   setSurveyVisibility: (visible: boolean) => void;
   setGreetingVisibility: (visible: boolean) => void;
   setAlertVisibility: (visible: boolean) => void;
+  setAlertMessage: (message: string) => void;
 }
 
 type Question = {
@@ -22,6 +23,11 @@ function Survey(props: Props) {
   const [data, setData] = useState(loadData);
   const [response, setResponse] = useState<string>("");
   const [inputValues, setInputValues] = useState(new Map<number, string>());
+  useEffect(() => {
+    props.setAlertMessage(
+      "Please complete all required fields before moving on"
+    );
+  }, []);
 
   //   question stack is an aarray of question ids that i pop from for the prev button
   //   useEffect(() => {
@@ -81,6 +87,7 @@ function Survey(props: Props) {
       case "multiple-selection":
     }
   }
+
   return (
     <>
       <h1>

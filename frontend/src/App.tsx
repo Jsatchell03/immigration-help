@@ -10,6 +10,7 @@ function App() {
   const [surveyVisible, setSurveyVisibility] = useState<boolean>(false);
   const [greetingVisible, setGreetingVisibility] = useState<boolean>(true);
   const [alertVisible, setAlertVisibility] = useState<boolean>(false);
+  const [alertMessage, setAlertMessage] = useState<string>("");
   return (
     <>
       {greetingVisible && (
@@ -18,14 +19,18 @@ function App() {
           setGreetingVisibility={setGreetingVisibility}
         />
       )}
+
       {surveyVisible && (
         <Survey
           setGreetingVisibility={setGreetingVisibility}
           setSurveyVisibility={setSurveyVisibility}
           setAlertVisibility={setAlertVisibility}
+          setAlertMessage={setAlertMessage}
         />
       )}
-      {alertVisible && <Alert />}
+
+      {alertVisible && <Alert message={alertMessage} />}
+
       <Translate />
     </>
   );
