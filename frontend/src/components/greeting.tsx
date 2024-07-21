@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 interface Props {
   setSurveyVisibility: (visible: boolean) => void;
   setGreetingVisibility: (visible: boolean) => void;

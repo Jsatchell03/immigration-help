@@ -41,16 +41,23 @@ function Survey(props: Props) {
         return (
           <input
             type="number"
-            className="form-control"
+            className="form-control number-value"
             id="number-value-input"
             value={response}
             onChange={handleFormChange}
           />
         );
       case "search-dropdown":
-        break;
       case "dropdown":
-        break;
+        let i = 0;
+        const options = questionData.options.map((option) => (
+          <option key={(i += 1)}>{option}</option>
+        ));
+        return (
+          <select className="form-select" aria-label="Default select example">
+            {options}
+          </select>
+        );
       case "radio":
         break;
       case "multiple-selection":
