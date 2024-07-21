@@ -6,6 +6,7 @@ let formChanged: boolean = false;
 interface Props {
   setSurveyVisibility: (visible: boolean) => void;
   setGreetingVisibility: (visible: boolean) => void;
+  setAlertVisibility: (visible: boolean) => void;
 }
 
 type Question = {
@@ -40,6 +41,7 @@ function Survey(props: Props) {
   ) {
     formChanged = true;
     console.log(formChanged);
+    props.setAlertVisibility(false);
     setResponse(e.target.value);
   }
   // This function will return the JSX for the answer choices. The function takes a question and will return JSX based on the question type using a switch statement
@@ -117,7 +119,7 @@ function Survey(props: Props) {
             formChanged = false;
           } else {
             console.log("Form Unchanged " + formChanged);
-            // Summon alert
+            props.setAlertVisibility(true);
           }
         }}
       >
