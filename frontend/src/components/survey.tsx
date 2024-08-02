@@ -44,17 +44,23 @@ function Survey(props: Props) {
     e:
       | React.ChangeEvent<HTMLInputElement>
       | React.ChangeEvent<HTMLSelectElement>
+    // | React.FormEvent<HTMLFormElement>
   ) {
     formChanged = true;
     console.log(formChanged);
     props.setAlertVisibility(false);
     setResponse(e.target.value);
   }
+
+  // function handleMultiSelectForm() {}
+  // The multi select form will need extra logic that will be handled thru this function
   // This function will return the JSX for the answer choices. The function takes a question and will return JSX based on the question type using a switch statement
   // Need to add a default value to the form. Something that makes it clear what type of data needs to be input
   function getOptions(questionData: Question) {
+    let i = 0;
     switch (questionData.type) {
       case "number-value":
+        i = 0;
         return (
           <input
             type="number"
@@ -66,8 +72,8 @@ function Survey(props: Props) {
         );
       case "search-dropdown":
       case "dropdown":
-        let i = 0;
-        const options = questionData.options.map((option) => (
+        i = 0;
+        const dropdownOptions = questionData.options.map((option) => (
           <option key={(i += 1)} value={option}>
             {option}
           </option>
@@ -79,12 +85,41 @@ function Survey(props: Props) {
             value={response}
             onChange={handleFormChange}
           >
-            {options}
+            <option value="-1" disabled>
+              Please select...
+            </option>
+            {dropdownOptions}
           </select>
         );
       case "radio":
-        break;
-      case "multiple-selection":
+        i = 0;
+        const radioOptions = questionData.options.map((option) => (
+          <div className="form-check" key={(i += 1)}>
+            <input
+              type="radio"
+              name="radio-question"
+              className="form-check-input"
+              value={option}
+            ></input>
+            <label className="form-check-label">{option}</label>
+          </div>
+        ));
+        return <form onChange={handleFormChange}>{radioOptions}</form>;
+
+      // case "multiple-selection":
+      //   i = 0;
+      //   const multiSelectionOptions = questionData.options.map((option) => (
+      //     <div className="form-check" key={(i += 1)}>
+      //       <input
+      //         type="checkbox"
+      //         name="radio-question"
+      //         className="form-check-input"
+      //         value={option}
+      //       ></input>
+      //       <label className="form-check-label">{option}</label>
+      //     </div>
+      //   ));
+      //   return <form onChange={handleFormChange}>{multiSelectionOptions}</form>;
     }
   }
 

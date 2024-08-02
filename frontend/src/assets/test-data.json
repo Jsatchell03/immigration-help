@@ -289,7 +289,7 @@
     "4": {
       "id": 4,
       "content": "Are you any of the following?",
-      "type": "multiple-selection",
+      "type": "radio",
       "options": [
         "Spouse of a U.S. Citizen",
         "Spouse of a U.S. Citizen awaiting approval of an I-130 immigrant petition",
