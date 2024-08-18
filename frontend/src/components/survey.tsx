@@ -29,17 +29,6 @@ function Survey(props: Props) {
     );
   }, []);
 
-  //   question stack is an aarray of question ids that i pop from for the prev button
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       const result = await fetch("../assets/test-data.json");
-  //       result.json().then((json) => {
-  //         setData(json.questions[currQuestion].content);
-  //       });
-  //     };
-  //     fetchData();
-  //   }, []);
-
   function handleFormChange(
     e:
       | React.ChangeEvent<HTMLInputElement>
@@ -62,13 +51,15 @@ function Survey(props: Props) {
       case "number-value":
         i = 0;
         return (
-          <input
-            type="number"
-            className="form-control number-value"
-            id="number-value-input"
-            value={response}
-            onChange={handleFormChange}
-          />
+          <div className="number-input">
+            <input
+              type="number"
+              className="form-control number-value"
+              id="number-value-input"
+              value={response}
+              onChange={handleFormChange}
+            />
+          </div>
         );
       case "search-dropdown":
       case "dropdown":
@@ -80,7 +71,7 @@ function Survey(props: Props) {
         ));
         return (
           <select
-            className="form-select"
+            className="form-select dropdown"
             aria-label="Default select example"
             value={response}
             onChange={handleFormChange}
@@ -91,6 +82,7 @@ function Survey(props: Props) {
             {dropdownOptions}
           </select>
         );
+      case "multiple-selection":
       case "radio":
         i = 0;
         const radioOptions = questionData.options.map((option) => (
@@ -98,76 +90,63 @@ function Survey(props: Props) {
             <input
               type="radio"
               name="radio-question"
-              className="form-check-input"
+              className="form-check-input radio"
               value={option}
             ></input>
             <label className="form-check-label">{option}</label>
           </div>
         ));
         return <form onChange={handleFormChange}>{radioOptions}</form>;
-
-      // case "multiple-selection":
-      //   i = 0;
-      //   const multiSelectionOptions = questionData.options.map((option) => (
-      //     <div className="form-check" key={(i += 1)}>
-      //       <input
-      //         type="checkbox"
-      //         name="radio-question"
-      //         className="form-check-input"
-      //         value={option}
-      //       ></input>
-      //       <label className="form-check-label">{option}</label>
-      //     </div>
-      //   ));
-      //   return <form onChange={handleFormChange}>{multiSelectionOptions}</form>;
     }
   }
 
   return (
-    <>
-      <h1>
+    <div className="survey-wrapper">
+      <h1 className="question">
         {currQuestion === -1 ? null : data.questions[currQuestion].content}
       </h1>
       {getOptions(data.questions[currQuestion])}
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={() => {
-          if (questionStack[questionStack.length - 1] == -1) {
-            props.setGreetingVisibility(true);
-            props.setSurveyVisibility(false);
-            return null;
-          }
-          setCurrQuestion(questionStack[questionStack.length - 1]);
-          setQuestionStack(questionStack.slice(0, questionStack.length - 1));
-        }}
-      >
-        Previous
-      </button>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={() => {
-          if (formChanged) {
-            console.log("Next");
-            setInputValues(
-              new Map<number, string>(
-                inputValues.set(data.questions[currQuestion].id, response)
-              )
-            );
-            console.log(inputValues);
-            setQuestionStack([...questionStack, currQuestion]);
-            setCurrQuestion(currQuestion + 1);
-            formChanged = false;
-          } else {
-            console.log("Form Unchanged " + formChanged);
-            props.setAlertVisibility(true);
-          }
-        }}
-      >
-        Next
-      </button>
-    </>
+      <div className="control-btns-wrapper">
+        <button
+          type="button"
+          className="btn btn-primary prev"
+          onClick={() => {
+            if (questionStack[questionStack.length - 1] == -1) {
+              props.setGreetingVisibility(true);
+              props.setSurveyVisibility(false);
+              return null;
+            }
+            setCurrQuestion(questionStack[questionStack.length - 1]);
+            setQuestionStack(questionStack.slice(0, questionStack.length - 1));
+          }}
+        >
+          Previous
+        </button>
+        <button
+          type="button"
+          className="btn btn-primary next"
+          onClick={() => {
+            if (formChanged) {
+              console.log("Next");
+              setInputValues(
+                new Map<number, string>(
+                  inputValues.set(data.questions[currQuestion].id, response)
+                )
+              );
+              console.log(inputValues);
+              setQuestionStack([...questionStack, currQuestion]);
+              setCurrQuestion(currQuestion + 1);
+              formChanged = false;
+            } else {
+              console.log("Form Unchanged " + formChanged);
+              props.setAlertVisibility(true);
+            }
+          }}
+        >
+          Next
+        </button>
+      </div>
+    </div>
   );
 }
 

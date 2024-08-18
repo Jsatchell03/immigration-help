@@ -1,0 +1,44 @@
+#root{
+  background-blend-mode: lighten;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.greeting-text-wrapper{
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-wrapper{
+    display: flex;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.survey-wrapper{
+    margin-top: 10%;
+}
+
+.alert-wrapper{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.number-input{
+    padding-left: 2%;
+    padding-right: 2%;
+}
+
+.control-btns-wrapper{
+    margin-top: 1%;
+    padding-left: 87%;
+}
+
+.prev{
+    margin-right: 10s;
+}

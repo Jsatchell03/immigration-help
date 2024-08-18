@@ -6,17 +6,22 @@ interface Props {
 function Greeting(props: Props) {
   return (
     <>
-      <h1>Welcome To Immigration Help Click Below To Begin</h1>
-      <button
-        type="button"
-        className="btn btn-primary"
-        onClick={() => {
-          props.setSurveyVisibility(true);
-          props.setGreetingVisibility(false);
-        }}
-      >
-        Get Started
-      </button>
+      <div className="greeting-text-wrapper">
+        <h1 className="greeting">Welcome To Immigration Help</h1>
+        <h1 className="greeting">Click below to begin</h1>
+      </div>
+      <div className="btn-wrapper">
+        <button
+          type="button"
+          className="btn btn-primary start"
+          onClick={() => {
+            props.setSurveyVisibility(true);
+            props.setGreetingVisibility(false);
+          }}
+        >
+          Get Started
+        </button>
+      </div>
     </>
   );
 }

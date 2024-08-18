@@ -1,4 +1,4 @@
-import "./App.css";
+import "./styles/App.css";
 import { useState } from "react";
 import Survey from "./components/survey";
 import Translate from "./components/translate";
@@ -14,10 +14,12 @@ function App() {
   return (
     <>
       {greetingVisible && (
-        <Greeting
-          setSurveyVisibility={setSurveyVisibility}
-          setGreetingVisibility={setGreetingVisibility}
-        />
+        <div className="greeting-wrapper">
+          <Greeting
+            setSurveyVisibility={setSurveyVisibility}
+            setGreetingVisibility={setGreetingVisibility}
+          />
+        </div>
       )}
 
       {surveyVisible && (
@@ -29,7 +31,11 @@ function App() {
         />
       )}
 
-      {alertVisible && <Alert message={alertMessage} />}
+      {alertVisible && (
+        <div className="alert-wrapper">
+          <Alert message={alertMessage} />
+        </div>
+      )}
 
       <Translate />
     </>
